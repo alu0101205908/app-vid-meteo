@@ -4,10 +4,10 @@ import dash_vega_components as dvc
 from utils.dashboard_utils import *
 
 alt.data_transformers.disable_max_rows()
+app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+server = app.server
 
-dash_app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
-
-dash_app.layout = dbc.Container(fluid=True,
+app.layout = dbc.Container(fluid=True,
     children=[
     dbc.Row([
         dbc.Col(html.H1("Producción vitinicola y avisos fitosanitarios"), className="text-center mb-4")
@@ -160,7 +160,7 @@ dash_app.layout = dbc.Container(fluid=True,
     ])
 ])
 
-@dash_app.callback(
+@app.callback(
     [
         Output('produccion-total-text', 'children'),
         Output('alertas-total-text', 'children'),
@@ -203,7 +203,7 @@ def actualizar_produccion(grupo_seleccionado, periodo_seleccionado):
     )
 
 
-@dash_app.callback(
+@app.callback(
     [Output('hum-graph', 'figure'),
      Output('rad-graph', 'figure'),
      Output('temp-graph', 'figure')],
@@ -217,4 +217,4 @@ def update_graphs(selected_comarca):
 
 
 if __name__ == "__main__":
-    dash_app.run_server(debug=True)
+    app.run_server(debug=True)
